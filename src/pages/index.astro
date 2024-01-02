@@ -1,0 +1,373 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+
+---
+
+<Layout title="Badcop's Birthday Party">
+	<main>
+  <script>
+    window.addEventListener("load", () => {
+      const event = new Date();
+      event.setUTCFullYear(2024);
+      event.setUTCMonth(0);
+      event.setUTCDate(4);
+      event.setUTCHours(23);
+      event.setUTCMinutes(0);
+      event.setUTCSeconds(0);
+
+      const rsvp: any = document.querySelector("#rsvp")!;
+      const when1: any = document.querySelector("#date")!;
+      const when2: any = document.querySelector("#time")!;
+      when1.innerText = event.toLocaleDateString([], {
+  month: "short",
+  year: "numeric",
+  day: "numeric",
+});
+      when2.innerText = event.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      const name: any = rsvp.querySelector("#name")!;
+      const spin: any = rsvp.querySelector("#spin")!;
+      const reason: any = rsvp.querySelector("#reason")!;
+      name.addEventListener('input', (e: any) => {
+      spin.classList.remove("failed");
+      spin.classList.remove("done");
+      name.classList.remove("failed");
+      name.classList.remove("success");
+      reason.innerText = "";
+      });
+      rsvp.addEventListener('submit', async (e: any) => {
+        e.preventDefault();
+        spin.classList.add("processing");
+        name.disabled = true;
+        try {
+          const result = await window.fetch("https://birthday.badcop.live/rsvp?name=" + name.value);
+
+          const text = await result.text();
+          if (result.status != 200) {
+            throw new Error(text);
+          }
+          spin.classList.remove("processing");
+          spin.classList.add("done");
+          name.classList.add("success");
+        } catch(e: any) {
+          reason.innerText = e.message;
+          spin.classList.remove("processing");
+          spin.classList.add("failed");
+          name.classList.add("failed");
+        } finally {
+          name.disabled = false;
+        }
+      });
+    });
+  </script>
+  <div class="logo">
+  <img src="/logo.png" width=190 height=190 />
+  </div>
+		<h1>You&apos;re <span class="text-gradient">invited</span>! 🎉</h1>
+		<p class="instructions">
+      I'm hosting my birthday party online in Minecraft. I'd love to see you there!
+		</p>
+		<ul role="list" class="link-card-grid">
+      <Card title="When?">I'll start a world on <span class="code" id="date"></span> at <span class="code" id="time"></span> (your local time!). I'll be playing pretty much all day 😅</Card>
+      <Card title="Where?">The server IP is <span class="code">mc.badcop.games</span></Card>
+      <Card title="Version?" href="https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat" target="_blank">We will be playing Vanilla Java Edition 1.20.4 using the <em>Simple Voice Chat</em> mod.</Card>
+      <Card title="Help how do I install a mod?" href="/mods">Click here, I wrote a guide just for you :p</Card>
+		</ul>
+    <div class="center">
+    <h2>Please RSVP Below</h2>
+    <p>This will help me whitelist people ahead of time :)</p>
+    <form id="rsvp" action="https://birthday.badcop.live/rsvp">
+      <p id="reason"></p>
+      <input type="text" name="name" id="name" placeholder="Minecraft username..." />
+      <button class="spin" id="spin">
+        <span>RSVP</span>
+        <span>
+          <svg viewBox="0 0 461 461">
+            <path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55  c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55  c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505  c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55  l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719  c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z" />
+          </svg>
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24">
+            <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
+          </svg>
+        </span>
+        </span>
+      </button>
+    </form>
+    </div>
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 2rem;
+		width: 800px;
+		max-width: calc(100% - 2rem);
+		color: white;
+		font-size: 20px;
+		line-height: 1.6;
+		background: #13151aea;
+    min-height: 100dvh;
+    box-sizing: border-box;
+	}
+  form {
+  padding: 0;
+  margin: 0;
+    flex-direction: column;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+  .center p {
+  margin: 0;
+  }
+  .center {
+    flex-direction: column;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+	.astro-a {
+		position: absolute;
+		top: -32px;
+		left: 50%;
+		transform: translatex(-50%);
+		width: 220px;
+		height: auto;
+		z-index: -1;
+	}
+	h1 {
+    margin-top: 0.1em;
+		font-size: 4rem;
+		font-weight: 700;
+		line-height: 1;
+		text-align: center;
+		margin-bottom: 1em;
+	}
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
+	}
+	.instructions {
+		margin-bottom: 2rem;
+		border: 1px solid rgba(var(--accent-light), 25%);
+		background: linear-gradient(rgba(var(--accent-dark), 66%), rgba(var(--accent-dark), 33%));
+		padding: 1.5rem;
+		border-radius: 8px;
+	}
+	.code {
+		font-size: 0.8em;
+		font-weight: bold;
+		background: rgba(var(--accent-light), 12%);
+		color: rgb(var(--accent-light));
+		border-radius: 4px;
+		padding: 0.3em 0.4em;
+	}
+	.instructions code {
+		font-size: 0.8em;
+		font-weight: bold;
+		background: rgba(var(--accent-light), 12%);
+		color: rgb(var(--accent-light));
+		border-radius: 4px;
+		padding: 0.3em 0.4em;
+	}
+	.instructions strong {
+		color: rgb(var(--accent-light));
+	}
+	.link-card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+		gap: 2rem;
+		padding: 0;
+	}
+  *, *::before, *::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  color: #444;
+  line-height: 1.4;
+  font-size: 16px;
+  font-family: sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(720deg);
+  }
+}
+
+button {
+  position: relative;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: transparent;
+  outline: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.spin {
+  border: 2px solid #1ecd97;
+  color: #1ecd97;
+  font-weight: 600;
+  transition: all 200ms ease-in-out;
+}
+.spin span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 200ms ease-in-out;
+}
+.spin span:nth-child(2) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.spin span:nth-child(3) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.spin svg {
+  height: 30px;
+  fill: #1ecd97;
+}
+.spin:hover {
+  background-color: #1ecd97;
+  color: #fff;
+}
+.spin.done, .spin.failed, .spin.processing {
+  pointer-events: none;
+  cursor: default;
+}
+.spin.processing {
+  width: 50px;
+  border-width: 4px;
+  border-right-color: #bbb;
+  border-bottom-color: #bbb;
+  animation: spin;
+  animation-delay: 200ms;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+}
+.spin.processing:hover {
+  background-color: transparent;
+}
+.spin.processing span:nth-child(1) {
+  opacity: 0;
+}
+.spin.processing span:nth-child(2) {
+  opacity: 0;
+}
+.spin.processing span:nth-child(3) {
+  opacity: 0;
+}
+.spin.failed:hover {
+  background-color: transparent;
+}
+.spin.failed span:nth-child(1) {
+  opacity: 0;
+}
+.spin.failed span:nth-child(2) {
+  opacity: 1;
+}
+.spin.failed span:nth-child(3) {
+  opacity: 0;
+}
+.spin.done:hover {
+  background-color: transparent;
+}
+.spin.done span:nth-child(1) {
+  opacity: 0;
+}
+.spin.done span:nth-child(2) {
+  opacity: 0;
+}
+.spin.done span:nth-child(3) {
+  opacity: 1;
+}
+
+.failed {
+  border: 2px solid #cd1e27;
+}
+.failed svg {
+  fill: #cd1e27;
+}
+button {
+font-size: 20px;
+}
+input {
+    font-size: 20px;
+    color: white;
+		background-color: #23262d;
+		border-radius: 7px;
+    border: 1px solid;
+    padding: 12px;
+		background-image: none;
+		background-size: 400%;
+		border-radius: 7px;
+		background-position: 100%;
+		transition: border-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    border-color: #ffffff00;
+}
+input::placeholder {
+		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+input:is(:hover, :focus-within) {
+    color: white;
+		border-color: rgb(var(--accent-light));
+}
+input:hover::placeholder {
+  color: rgb(var(--accent-light));
+}
+input:focus-within::placeholder {
+opacity: 0;
+}
+#reason {
+  color: #cd1e27;
+}
+input.success{
+  color: #1ecd97;
+  border-color: #1ecd97;
+}
+input.success:hover::placeholder {
+  color: #1ecd97;
+}
+input.failed {
+  color: #cd1e27;
+  border-color: #cd1e27;
+}
+input.failed:hover::placeholder {
+  color: #cd1e27;
+}
+</style>

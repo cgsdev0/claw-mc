@@ -1,0 +1,376 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+
+---
+
+<Layout title="How to install the mod">
+	<main>
+  <script>
+    window.addEventListener("load", () => {
+      const event = new Date();
+      event.setUTCFullYear(2024);
+      event.setUTCMonth(0);
+      event.setUTCDate(4);
+      event.setUTCHours(23);
+      event.setUTCMinutes(0);
+      event.setUTCSeconds(0);
+
+      const rsvp: any = document.querySelector("#rsvp")!;
+      const when1: any = document.querySelector("#date")!;
+      const when2: any = document.querySelector("#time")!;
+      when1.innerText = event.toLocaleDateString();
+      when2.innerText = event.toLocaleTimeString();
+      const name: any = rsvp.querySelector("#name")!;
+      const spin: any = rsvp.querySelector("#spin")!;
+      const reason: any = rsvp.querySelector("#reason")!;
+      name.addEventListener('input', (e: any) => {
+      spin.classList.remove("failed");
+      spin.classList.remove("done");
+      name.classList.remove("failed");
+      reason.innerText = "";
+      });
+      rsvp.addEventListener('submit', async (e: any) => {
+        e.preventDefault();
+        spin.classList.add("processing");
+        name.disabled = true;
+        try {
+          const result = await window.fetch("https://birthday.badcop.live/rsvp?name=" + name.value);
+
+          const text = await result.text();
+          if (result.status != 406) {
+            throw new Error(text);
+          }
+          spin.classList.remove("processing");
+          spin.classList.add("done");
+        } catch(e: any) {
+          reason.innerText = e.message;
+          spin.classList.remove("processing");
+          spin.classList.add("failed");
+          name.classList.add("failed");
+        } finally {
+          name.disabled = false;
+        }
+      });
+    });
+  </script>
+		<h1>Installing The Mod</h1>
+		<p class="instructions">
+    This assumes you already have <a href="https://www.minecraft.net/en-us/download" target="_blank">Minecraft</a> installed. If not, start there!
+		</p>
+    <h2>Install Fabric</h2>
+    <ul>
+    <li>You can download the <a href="https://fabricmc.net/use/installer/">installer from here</a></li>
+    <li>Run the installer and confirm the settings</li>
+    <img src="/help1.png" />
+    </ul>
+    <h2>Create a Mods Folder</h2>
+    <ul>
+    <li>Open the Minecraft Launcher.</li>
+    <li>On the 'Installations' tab, click the folder icon</li>
+    <li>Create a new folder called 'mods' in the folder that gets opened.</li>
+    <img src="/help2.png" width="640"/>
+    </ul>
+    <h2>Download Simple Voice Chat</h2>
+    <ul>
+    <li>Go to the <a href="https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat" target="_blank">CurseForge download page</a></li>
+    <li>Click the 'Download' button in the upper right</li>
+    <li>Put the downloaded <span class="code">.jar</span> file in your newly created <span class="code">mods</span> folder.</li>
+    <img src="/help3.png" />
+    </ul>
+    <h2>Launch!</h2>
+    <ul>
+    <li>Launch the fabric profile in the Minecraft launcher!</li>
+    <li>It should just work™ 🤞</li>
+    </ul>
+	</main>
+</Layout>
+
+<style>
+a {
+  color: rgb(var(--accent-light));
+}
+h2 {
+  counter-increment: list-number;
+  display: flex;
+  align-items: center;
+}
+
+h2:before {
+  content: counter(list-number);
+  margin-right: 1em;
+  width: 35px;
+  height: 35px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background-color: rgb(var(--accent));
+  border-radius: 50%;
+  color: #fff;
+}
+	main {
+		margin: auto;
+		padding: 2rem;
+		width: 800px;
+		max-width: calc(100% - 2rem);
+		color: white;
+		font-size: 20px;
+		line-height: 1.6;
+		background: #13151aea;
+    min-height: 100dvh;
+    box-sizing: border-box;
+	}
+  form {
+  padding: 0;
+  margin: 0;
+    flex-direction: column;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+  .center p {
+  margin: 0;
+  }
+  .center {
+    flex-direction: column;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+	.astro-a {
+		position: absolute;
+		top: -32px;
+		left: 50%;
+		transform: translatex(-50%);
+		width: 220px;
+		height: auto;
+		z-index: -1;
+	}
+	h1 {
+    margin-top: 0.1em;
+		font-size: 4rem;
+		font-weight: 700;
+		line-height: 1;
+		text-align: center;
+		margin-bottom: 1em;
+	}
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
+	}
+	.instructions {
+		margin-bottom: 2rem;
+		border: 1px solid rgba(var(--accent-light), 25%);
+		background: linear-gradient(rgba(var(--accent-dark), 66%), rgba(var(--accent-dark), 33%));
+		padding: 1.5rem;
+		border-radius: 8px;
+	}
+	.code {
+		font-size: 0.8em;
+		font-weight: bold;
+		background: rgba(var(--accent-light), 12%);
+		color: rgb(var(--accent-light));
+		border-radius: 4px;
+		padding: 0.3em 0.4em;
+	}
+	.instructions code {
+		font-size: 0.8em;
+		font-weight: bold;
+		background: rgba(var(--accent-light), 12%);
+		color: rgb(var(--accent-light));
+		border-radius: 4px;
+		padding: 0.3em 0.4em;
+	}
+	.instructions strong {
+		color: rgb(var(--accent-light));
+	}
+	.link-card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+		gap: 2rem;
+		padding: 0;
+	}
+  *, *::before, *::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  color: #444;
+  line-height: 1.4;
+  font-size: 16px;
+  font-family: sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(720deg);
+  }
+}
+
+button {
+  position: relative;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: transparent;
+  outline: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.spin {
+  border: 2px solid #1ecd97;
+  color: #1ecd97;
+  font-weight: 600;
+  transition: all 200ms ease-in-out;
+}
+.spin span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 200ms ease-in-out;
+}
+.spin span:nth-child(2) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.spin span:nth-child(3) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.spin svg {
+  height: 30px;
+  fill: #1ecd97;
+}
+.spin:hover {
+  background-color: #1ecd97;
+  color: #fff;
+}
+.spin.done, .spin.failed, .spin.processing {
+  pointer-events: none;
+  cursor: default;
+}
+.spin.processing {
+  width: 50px;
+  border-width: 4px;
+  border-right-color: #bbb;
+  border-bottom-color: #bbb;
+  animation: spin;
+  animation-delay: 200ms;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+}
+.spin.processing:hover {
+  background-color: transparent;
+}
+.spin.processing span:nth-child(1) {
+  opacity: 0;
+}
+.spin.processing span:nth-child(2) {
+  opacity: 0;
+}
+.spin.processing span:nth-child(3) {
+  opacity: 0;
+}
+.spin.failed:hover {
+  background-color: transparent;
+}
+.spin.failed span:nth-child(1) {
+  opacity: 0;
+}
+.spin.failed span:nth-child(2) {
+  opacity: 1;
+}
+.spin.failed span:nth-child(3) {
+  opacity: 0;
+}
+.spin.done:hover {
+  background-color: transparent;
+}
+.spin.done span:nth-child(1) {
+  opacity: 0;
+}
+.spin.done span:nth-child(2) {
+  opacity: 0;
+}
+.spin.done span:nth-child(3) {
+  opacity: 1;
+}
+
+.failed {
+  border: 2px solid #cd1e27;
+}
+.failed svg {
+  fill: #cd1e27;
+}
+button {
+font-size: 20px;
+}
+input {
+    font-size: 20px;
+    color: white;
+		background-color: #23262d;
+		border-radius: 7px;
+    border: 1px solid;
+    padding: 12px;
+		background-image: none;
+		background-size: 400%;
+		border-radius: 7px;
+		background-position: 100%;
+		transition: border-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    border-color: #ffffff00;
+}
+input::placeholder {
+		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+input:is(:hover, :focus-within) {
+    color: white;
+		border-color: rgb(var(--accent-light));
+}
+input:hover::placeholder {
+  color: rgb(var(--accent-light));
+}
+input:focus-within::placeholder {
+opacity: 0;
+}
+#reason {
+color: red;
+}
+input.failed {
+  border-color:red;
+  color: red;
+}
+input.failed:hover::placeholder {
+  color: red;
+}
+</style>
