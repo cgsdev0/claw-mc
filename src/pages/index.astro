@@ -4,7 +4,7 @@ import Card from '../components/Card.astro';
 
 ---
 
-<Layout title="Badcop's Birthday Party">
+<Layout title="The Claw Minecraft Server">
 	<main>
   <script>
     window.addEventListener("load", () => {
@@ -24,7 +24,7 @@ import Card from '../components/Card.astro';
         spin.classList.add("processing");
         name.disabled = true;
         try {
-          const result = await window.fetch("https://birthday.badcop.live/rsvp?name=" + name.value);
+          const result = await window.fetch("/rsvp?name=" + name.value);
 
           const text = await result.text();
           if (result.status != 200) {
