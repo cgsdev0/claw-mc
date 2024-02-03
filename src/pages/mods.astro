@@ -1,3 +1,4 @@
+
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
@@ -6,83 +7,12 @@ import Card from '../components/Card.astro';
 
 <Layout title="How to install the mod">
 	<main>
-  <script>
-    window.addEventListener("load", () => {
-      const event = new Date();
-      event.setUTCFullYear(2024);
-      event.setUTCMonth(0);
-      event.setUTCDate(4);
-      event.setUTCHours(23);
-      event.setUTCMinutes(0);
-      event.setUTCSeconds(0);
-
-      const rsvp: any = document.querySelector("#rsvp")!;
-      const when1: any = document.querySelector("#date")!;
-      const when2: any = document.querySelector("#time")!;
-      when1.innerText = event.toLocaleDateString();
-      when2.innerText = event.toLocaleTimeString();
-      const name: any = rsvp.querySelector("#name")!;
-      const spin: any = rsvp.querySelector("#spin")!;
-      const reason: any = rsvp.querySelector("#reason")!;
-      name.addEventListener('input', (e: any) => {
-      spin.classList.remove("failed");
-      spin.classList.remove("done");
-      name.classList.remove("failed");
-      reason.innerText = "";
-      });
-      rsvp.addEventListener('submit', async (e: any) => {
-        e.preventDefault();
-        spin.classList.add("processing");
-        name.disabled = true;
-        try {
-          const result = await window.fetch("https://birthday.badcop.live/rsvp?name=" + name.value);
-
-          const text = await result.text();
-          if (result.status != 406) {
-            throw new Error(text);
-          }
-          spin.classList.remove("processing");
-          spin.classList.add("done");
-        } catch(e: any) {
-          reason.innerText = e.message;
-          spin.classList.remove("processing");
-          spin.classList.add("failed");
-          name.classList.add("failed");
-        } finally {
-          name.disabled = false;
-        }
-      });
-    });
-  </script>
 		<h1>Installing The Mod</h1>
-		<p class="instructions">
-    This assumes you already have <a href="https://www.minecraft.net/en-us/download" target="_blank">Minecraft</a> installed. If not, start there!
-		</p>
-    <h2>Install Fabric</h2>
-    <ul>
-    <li>You can download the <a href="https://fabricmc.net/use/installer/">installer from here</a></li>
-    <li>Run the installer and confirm the settings</li>
-    <img src="/help1.png" />
-    </ul>
-    <h2>Create a Mods Folder</h2>
-    <ul>
-    <li>Open the Minecraft Launcher.</li>
-    <li>On the 'Installations' tab, click the folder icon</li>
-    <li>Create a new folder called 'mods' in the folder that gets opened.</li>
-    <img src="/help2.png" width="640"/>
-    </ul>
-    <h2>Download Simple Voice Chat</h2>
-    <ul>
-    <li>Go to the <a href="https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat" target="_blank">CurseForge download page</a></li>
-    <li>Click the 'Download' button in the upper right</li>
-    <li>Put the downloaded <span class="code">.jar</span> file in your newly created <span class="code">mods</span> folder.</li>
-    <img src="/help3.png" />
-    </ul>
-    <h2>Launch!</h2>
-    <ul>
-    <li>Launch the fabric profile in the Minecraft launcher!</li>
-    <li>It should just work™ 🤞</li>
-    </ul>
+		<p class="instructions">Please select which platform you are playing on:</p>
+		<ul role="list" class="link-card-grid">
+      <Card title="Windows" href="/windows"></Card>
+      </ul>
+      <p>Could use some help writing guides for other platforms! 😅</p>
 	</main>
 </Layout>
 

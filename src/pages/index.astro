@@ -8,23 +8,6 @@ import Card from '../components/Card.astro';
 	<main>
   <script>
     window.addEventListener("load", () => {
-      const event = new Date();
-      event.setUTCFullYear(2024);
-      event.setUTCMonth(0);
-      event.setUTCDate(4);
-      event.setUTCHours(23);
-      event.setUTCMinutes(0);
-      event.setUTCSeconds(0);
-
-      const rsvp: any = document.querySelector("#rsvp")!;
-      const when1: any = document.querySelector("#date")!;
-      const when2: any = document.querySelector("#time")!;
-      when1.innerText = event.toLocaleDateString([], {
-  month: "short",
-  year: "numeric",
-  day: "numeric",
-});
-      when2.innerText = event.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
       const name: any = rsvp.querySelector("#name")!;
       const spin: any = rsvp.querySelector("#spin")!;
       const reason: any = rsvp.querySelector("#reason")!;
@@ -61,26 +44,23 @@ import Card from '../components/Card.astro';
     });
   </script>
   <div class="logo">
-  <img src="/logo.png" width=190 height=190 />
+  <img src="/moth_with_banner.svg" width=190 height=190 />
   </div>
-		<h1>You&apos;re <span class="text-gradient">invited</span>! 🎉</h1>
-		<p class="instructions">
-      I'm hosting my birthday party online in Minecraft. I'd love to see you there!
-		</p>
+		<h1>Team <span class="text-gradient">Minecraft</span> Server</h1>
 		<ul role="list" class="link-card-grid">
-      <Card title="When?">I'll start a world on <span class="code" id="date"></span> at <span class="code" id="time"></span> (your local time!). I'll be playing pretty much all day 😅</Card>
-      <Card title="Where?">The server IP is <span class="code">mc.badcop.games</span></Card>
-      <Card title="Version?" href="https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat" target="_blank">We will be playing Vanilla Java Edition 1.20.4 using the <em>Simple Voice Chat</em> mod.</Card>
+      <Card title="Who?">I'm planning to just start this as a team-only whitelist server for now</Card>
+      <Card title="Where?">The server IP is <span class="code">mc.theclaw.team</span></Card>
+      <Card title="Version?" href="https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat" target="_blank">Vanilla Java Edition 1.20.4 with (optionally) the <em>Simple Voice Chat</em> mod</Card>
       <Card title="Help how do I install a mod?" href="/mods">Click here, I wrote a guide just for you :p</Card>
 		</ul>
     <div class="center">
-    <h2>Please RSVP Below</h2>
-    <p>This will help me whitelist people ahead of time :)</p>
-    <form id="rsvp" action="https://birthday.badcop.live/rsvp">
+    <h2>Request Access</h2>
+    <p>Please send me your username so I can add you to the server:</p>
+    <form id="rsvp" action="/rsvp">
       <p id="reason"></p>
       <input type="text" name="name" id="name" placeholder="Minecraft username..." />
       <button class="spin" id="spin">
-        <span>RSVP</span>
+        <span>Request</span>
         <span>
           <svg viewBox="0 0 461 461">
             <path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55  c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55  c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505  c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55  l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719  c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z" />
